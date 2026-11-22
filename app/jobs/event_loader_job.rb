@@ -23,7 +23,7 @@ class EventLoaderJob < ApplicationJob
       location  = create_or_update_location(event_data["location"])
       category  = create_or_update_category(event_data["categorization"], org)
 
-      Event.find_or_create_by!(billetto_id: event_data["id"]) do |event|
+      event = Event.find_or_initialize_by(billetto_id: event_data["id"])
         event.assign_attributes(
           object_type:  event_data["object"].strip,
           kind:         event_data["kind"].strip,
@@ -33,6 +33,8 @@ class EventLoaderJob < ApplicationJob
           url:          event_data["url"].strip,
           branded_url:  event_data["branded_url"].strip,
           image_link:   event_data["image_link"].strip,
+          starts_at:    event_data["startdate"],
+          ends_at:      event_data["enddate"],
           availability: event_data["availability"],
           minimum_price_cents:    event_data["minimum_price"]["amount_in_cents"].to_i,
           minimum_price_currency: event_data["minimum_price"]["currency"].strip,
@@ -41,7 +43,8 @@ class EventLoaderJob < ApplicationJob
           organizer:    organizer,
           organization: org
         )
-      end
+      event.save!
+
     rescue StandardError => e
       Rails.logger.error("Failed to sync event: #{e.message}")
       next

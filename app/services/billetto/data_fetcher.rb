@@ -6,7 +6,7 @@ BASE_URL = "https://billetto.dk/api/v3/public/events"
 class Billetto::DataFetcher
   attr_reader :limit
 
-  def initialize(limit = 10)
+  def initialize(limit = 20)
     @limit = limit
   end
 
@@ -18,10 +18,17 @@ class Billetto::DataFetcher
 
     request = Net::HTTP::Get.new(url)
     request["accept"] = 'application/json'
-    api_pair = "#{Rails.application.credentials.billetto_api_key}:#{Rails.application.credentials.billetto_api_value}"
-    request["Api-Keypair"] = api_pair
+    request["Api-Keypair"] = "#{Rails.application.credentials.billetto_api_key}:#{Rails.application.credentials.billetto_api_value}"
 
-    request.uri.query = URI.encode_www_form(limit: limit) unless url.query
+    if url.query
+      if URI.decode_www_form(url.query).any? { |key, _| key == "limit" }
+        request.uri.query = url.query
+      else
+        request.uri.query = "#{url.query}&#{URI.encode_www_form([["limit", limit]])}"
+      end
+    else
+      request.uri.query = URI.encode_www_form([["limit", limit]])
+    end
 
     begin
       response = http.request(request)
