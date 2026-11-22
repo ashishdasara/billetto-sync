@@ -10,12 +10,13 @@ class CreateEvents < ActiveRecord::Migration[8.0]
       t.string :url
       t.string :branded_url
       t.string :image_link
-      t.string :availability
+      t.boolean :availability
       t.integer :minimum_price_cents
       t.string :minimum_price_currency
       t.references :organizer, null: false, foreign_key: true
       t.references :location, null: false, foreign_key: true
       t.references :category, null: false, foreign_key: true
+      t.references :organization, null: false, foreign_key: true
 
       t.timestamps
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_11_21_162116) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_21_170831) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,10 +21,35 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_21_162116) do
     t.string "subcategory_localized"
     t.string "category_type"
     t.string "category_type_localized"
-    t.bigint "organizer_id", null: false
+    t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["organizer_id"], name: "index_categories_on_organizer_id"
+    t.index ["organization_id"], name: "index_categories_on_organization_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.bigint "billetto_id"
+    t.string "object_type"
+    t.string "kind"
+    t.string "state"
+    t.string "title"
+    t.text "description"
+    t.string "url"
+    t.string "branded_url"
+    t.string "image_link"
+    t.boolean "availability"
+    t.integer "minimum_price_cents"
+    t.string "minimum_price_currency"
+    t.bigint "organizer_id", null: false
+    t.bigint "location_id", null: false
+    t.bigint "category_id", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_events_on_category_id"
+    t.index ["location_id"], name: "index_events_on_location_id"
+    t.index ["organization_id"], name: "index_events_on_organization_id"
+    t.index ["organizer_id"], name: "index_events_on_organizer_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -44,6 +69,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_21_162116) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.bigint "billetto_id"
+    t.string "domain"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["billetto_id"], name: "index_organizations_on_billetto_id"
+  end
+
   create_table "organizers", force: :cascade do |t|
     t.bigint "billetto_id"
     t.string "name"
@@ -52,5 +85,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_21_162116) do
     t.index ["billetto_id"], name: "index_organizers_on_billetto_id"
   end
 
-  add_foreign_key "categories", "organizers"
+  add_foreign_key "categories", "organizations"
+  add_foreign_key "events", "categories"
+  add_foreign_key "events", "locations"
+  add_foreign_key "events", "organizations"
+  add_foreign_key "events", "organizers"
 end

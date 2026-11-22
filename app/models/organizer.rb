@@ -1,5 +1,5 @@
 class Organizer < ApplicationRecord
   has_many :categories
 
-  validates :name, presence: true
+  # validates :name, presence: true
 end

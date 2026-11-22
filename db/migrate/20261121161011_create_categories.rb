@@ -7,7 +7,7 @@ class CreateCategories < ActiveRecord::Migration[8.0]
       t.string :subcategory_localized
       t.string :category_type
       t.string :category_type_localized
-      t.references :organizer, null: false, foreign_key: true
+      t.references :organization, null: false, foreign_key: true
 
       t.timestamps
     end
