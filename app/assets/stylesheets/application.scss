@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+}
+
+.site-header {
+  background: #1f2937;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+}
+
+.site-brand {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.events {
+  max-width: 60rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+
+    a,
+    .current {
+      display: inline-block;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #bbb;
+      border-radius: 0.25rem;
+    }
+
+    .current {
+      background: #eee;
+      font-weight: bold;
+    }
+  }
+}
+
+.event {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.event > div {
+  flex: 1 1 20rem;
+}
+
+.event-image {
+  width: 100%;
+  max-width: 18rem;
+  height: fit-content;
+}
+
+.event-description {
+  white-space: pre-line;
+}
+
