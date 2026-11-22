@@ -64,6 +64,10 @@ body {
   gap: 1.5rem;
   padding: 1.5rem 0;
   border-bottom: 1px solid #ddd;
+
+  .event-title {
+    margin-top: 0;
+  }
 }
 
 .event > div {
@@ -79,4 +83,3 @@ body {
 .event-description {
   white-space: pre-line;
 }
-

@@ -23,6 +23,13 @@
   </head>
 
   <body>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main navigation">
+        <%= link_to "Billetto Sync", root_path, class: "site-brand" %>
+        <%= link_to "Events", events_path, aria: { current: ("page" if controller_name == "events" && action_name == "index") } %>
+      </nav>
+    </header>
+
     <%= yield %>
   </body>
 </html>

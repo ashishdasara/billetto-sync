@@ -1,0 +1,36 @@
+<% content_for :title, "Events | Billetto Sync" %>
+
+<main class="events">
+  <h1>Events</h1>
+
+  <% if @events.load.empty? %>
+    <p>No events found.</p>
+  <% end %>
+
+  <% @events.each do |event| %>
+    <article class="event">
+      <%= image_tag event.image_link, alt: "", loading: "lazy", class: "event-image" %>
+
+      <div>
+        <h2 class="event-title"><%= event.title %></h2>
+        <%= display_time(event) %>
+
+        <p><%= event.location.location_string %></p>
+        <p class="event-description"><%# event.description %></p>
+      </div>
+    </article>
+  <% end %>
+
+  <% if @events.out_of_range? && @events.current_page > 1 %>
+    <nav class="pagination" aria-label="Event pages">
+      <%= link_to "Previous", url_for(page: @events.current_page - 1) %>
+      <span>Page <%= @events.current_page %></span>
+    </nav>
+  <% elsif @events.total_pages == 1 %>
+    <nav class="pagination" aria-label="Event pages">
+      <span class="page current" aria-current="page">1</span>
+    </nav>
+  <% else %>
+    <%= paginate @events %>
+  <% end %>
+</main>
