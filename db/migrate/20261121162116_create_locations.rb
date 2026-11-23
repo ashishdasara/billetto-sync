@@ -13,6 +13,7 @@ class CreateLocations < ActiveRecord::Migration[8.0]
       t.string :subregion
       t.decimal :latitude
       t.decimal :longitude
+      t.references :event, null: false, foreign_key: true
 
       t.timestamps
     end

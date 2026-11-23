@@ -41,7 +41,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_22_135521) do
     t.integer "minimum_price_cents"
     t.string "minimum_price_currency"
     t.bigint "organizer_id", null: false
-    t.bigint "location_id", null: false
     t.bigint "category_id", null: false
     t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
@@ -49,7 +48,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_22_135521) do
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.index ["category_id"], name: "index_events_on_category_id"
-    t.index ["location_id"], name: "index_events_on_location_id"
     t.index ["organization_id"], name: "index_events_on_organization_id"
     t.index ["organizer_id"], name: "index_events_on_organizer_id"
   end
@@ -67,8 +65,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_22_135521) do
     t.string "subregion"
     t.decimal "latitude"
     t.decimal "longitude"
+    t.bigint "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_locations_on_event_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -89,7 +89,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_22_135521) do
 
   add_foreign_key "categories", "organizations"
   add_foreign_key "events", "categories"
-  add_foreign_key "events", "locations"
   add_foreign_key "events", "organizations"
   add_foreign_key "events", "organizers"
+  add_foreign_key "locations", "events"
 end
