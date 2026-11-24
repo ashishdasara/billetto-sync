@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "rails", "~> 8.0.2"
 # Rails 8.0"s JSON encoder uses quirks_mode, which JSON 3 removed.
-gem "json",         "< 3.0"
+gem "json",         "< 4.0"
 gem "propshaft"
 gem "dartsass-rails"
 gem "pg",           "~> 1.1"
