@@ -31,6 +31,45 @@ body {
   font-weight: bold;
 }
 
+.auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+
+  button {
+    border: 0;
+    padding: 0;
+    background: none;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover, &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+}
+
+.auth-nav, .auth-status {
+  color: #fff;
+}
+
+.flash {
+  padding: 1rem;
+  color: #333333;
+  border-radius: 0.25rem;
+  margin: 1rem;
+  text-align: center;
+
+  &.notice {
+    background: #35bd35;
+  }
+
+  &.alert {
+    background: #f56565;
+  }
+}
+
 .events {
   max-width: 60rem;
   margin: 2rem auto;
@@ -63,10 +102,16 @@ body {
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 1.5rem 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid gray;
 
   .event-title {
     margin-top: 0;
+  }
+
+  .event-title {
+    a {
+      color: #1f2937;
+    }
   }
 }
 
@@ -80,6 +125,41 @@ body {
   height: fit-content;
 }
 
-.event-description {
-  white-space: pre-line;
+.event-voting {
+  display: flex;
+
+  .vote-button {
+    border: 1px solid #1d1919;
+    border-radius: 3px;
+    box-shadow: none;
+    padding: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+
+    &:hover, &:focus-visible {
+      text-decoration: none;
+    }
+
+    &.up-active {
+      color: green;
+      border: 1px solid green;
+    }
+
+    &.down-active {
+      color: red;
+      border: 1px solid red;
+    }
+  }
+
+  .vote-history {
+    li {
+      margin: 0.75rem 0;
+    }
+
+    time {
+      display: block;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  }
 }

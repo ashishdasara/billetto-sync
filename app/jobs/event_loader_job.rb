@@ -24,8 +24,8 @@ class EventLoaderJob < ApplicationJob
       location  = create_or_update_location(event, event_data["location"])
 
       event.save!
-    # rescue ActiveRecord::RecordInvalid => e
-    #   Rails.logger.error("Failed to sync event #{event_data["id"]}: #{e.message}")
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error("Failed to sync event #{event_data["id"]}: #{e.message}")
     end
   end
 
@@ -87,8 +87,6 @@ class EventLoaderJob < ApplicationJob
 
     category.assign_attributes(
       category_localized: category_data["category_localized"],
-      subcategory: category_data["subcategory"],
-      subcategory_localized: category_data["subcategory_localized"],
       category_type: category_data["type"],
       category_type_localized: category_data["type_localized"],
     )

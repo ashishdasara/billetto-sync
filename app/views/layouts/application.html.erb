@@ -16,6 +16,7 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
@@ -27,8 +28,19 @@
       <nav class="site-nav" aria-label="Main navigation">
         <%= link_to "Billetto Sync", root_path, class: "site-brand" %>
         <%= link_to "Events", events_path, aria: { current: ("page" if controller_name == "events" && action_name == "index") } %>
+
+        <div class="auth-nav" data-controller="clerk" data-clerk-publishable-key-value="<%= Clerk.configuration.publishable_key %>">
+          <span data-clerk-target="status" role="status">Loading authentication…</span>
+          <button type="button" data-clerk-target="signIn" data-action="clerk#signIn" hidden>Sign in</button>
+          <button type="button" data-clerk-target="signUp" data-action="clerk#signUp" hidden>Sign up</button>
+          <button type="button" data-clerk-target="signOut" data-action="clerk#signOut" hidden>Sign out</button>
+        </div>
       </nav>
     </header>
+
+    <% flash.each do |type, message| %>
+      <p class="flash <%= type %>" role="status"><%= message %></p>
+    <% end %>
 
     <%= yield %>
   </body>

@@ -12,11 +12,21 @@
       <%= image_tag event.image_link, alt: "", loading: "lazy", class: "event-image" %>
 
       <div>
-        <h2 class="event-title"><%= event.title %></h2>
+        <h2 class="event-title"><%= link_to event.title, event_path(event), target: '_blank' %></h2>
         <%= display_time(event) %>
+        <%= display_category(event) %>
+        <%= display_location(event) %>
+      </div>
 
-        <p><%= event.location.location_string %></p>
-        <p class="event-description"><%# event.description %></p>
+      <div class="event-voting">
+        <% current_direction = @current_user_votes[event.id]&.direction %>
+        <% vote_count_up = @vote_counts[[event.id, "up"]] || 0 %>
+        <% vote_count_down = @vote_counts[[event.id, "down"]] || 0 %>
+
+        <%= button_to "Up <i class='fa fa-thumbs-up'></i> (#{vote_count_up})".html_safe, event_votes_path(event), params: { direction: "up" },
+                      aria: { pressed: current_direction == "up" }, class: "vote-button #{"up-active" if current_direction == "up"}" %>
+        <%= button_to "Down <i class='fa fa-thumbs-down'></i> (#{vote_count_down})".html_safe, event_votes_path(event), params: { direction: "down" },
+                      aria: { pressed: current_direction == "down" }, class: "vote-button #{"down-active" if current_direction == "down"}" %>
       </div>
     </article>
   <% end %>

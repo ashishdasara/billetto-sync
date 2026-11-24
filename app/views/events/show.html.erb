@@ -1,0 +1,46 @@
+<% content_for :title, "#{@event.title} | Billetto Sync" %>
+
+<main class="events">
+  <p><%= link_to "Back to events", events_path %></p>
+
+  <article class="event">
+    <%= image_tag @event.image_link, alt: "", loading: "lazy", class: "event-image" %>
+
+    <div>
+      <h1 class="event-title"><%= @event.title %></h1>
+      <%= display_time(@event) %>
+      <p><%= display_category(@event) %></p>
+      <%= display_location(@event) %>
+    </div>
+  </article>
+
+  <%# event description %>
+  <section class="event-description">
+    <h2>Description</h2>
+    <p><%= @event.description.presence || "Description unavailable" %></p>
+  </section>
+
+  <hr />
+
+  <section class="vote-history" aria-labelledby="vote-history-heading">
+    <h2 id="vote-history-heading">Vote history</h2>
+
+    <% if @vote_history.empty? %>
+      <p>No vote history yet.</p>
+    <% else %>
+      <ol>
+        <% @vote_history.each do |vote_event| %>
+          <li>
+            <time datetime="<%= vote_event.timestamp.iso8601 %>">
+              <%= l(vote_event.timestamp, format: :long) %>
+            </time>
+            -
+            <span><%= vote_history_description(vote_event) %></span>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
+  </section>
+
+  <hr />
+</main>

@@ -1,6 +1,6 @@
 class Event < ApplicationRecord
-
   has_one :location
+  has_many :votes, dependent: :destroy
   belongs_to :category
   belongs_to :organizer
   belongs_to :organization
