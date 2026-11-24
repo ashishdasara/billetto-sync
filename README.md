@@ -1,24 +1,49 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Development
 
-Things you may want to cover:
+Configure PostgreSQL in `config/database.yml`, using
+`config/database.yml.example` as a starting point, then run:
 
-* Ruby version
+```sh
+bundle install #install gems
+bin/rails db:prepare # create db
+bin/dev # run server, css, and solidqueue
+```
 
-* System dependencies
+Note: We are using separate databases for server data, solidqueue, solidcache and solidcable.
 
-* Configuration
+### Clerk authentication
 
-* Database creation
+Create a [Clerk application](https://dashboard.clerk.com/) and configure its
+sign-in methods. Add both keys from its API keys page to Rails encrypted
+credentials with `bin/rails credentials:edit`:
 
-* Database initialization
+```yaml
+clerk:
+  publishable_key: pk_test_...
+  secret_key: sk_test_...
+```
 
-* How to run the test suite
+Default configuration has already been added but may be removed soon.
 
-* Services (job queues, cache servers, search engines, etc.)
+Events can be loaded from Billetto into events table by running:
 
-* Deployment instructions
+```sh
+rake billetto:sync
+```
 
-* ...
+Data gets synced with Billetto everyday at 12:00 AM.
+
+Mission Control at `/jobs` requires HTTP Basic authentication. Configure its
+credentials for the current environment with:
+
+```sh
+bin/rails mission_control:jobs:authentication:configure
+```
+
+The command prompts for a username, generates a password, and stores both in
+encrypted Rails credentials. Restart the server after configuring them.
+
+The event list is available at `/` (root) and `/events`, with 20 events per page and
+numbered navigation. Navigation uses a count query to determine the total pages.
