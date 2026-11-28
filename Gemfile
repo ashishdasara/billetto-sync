@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.1.4"
 # Rails 8.0"s JSON encoder uses quirks_mode, which JSON 3 removed.
 gem "json",         "< 3.0"
 gem "propshaft"
